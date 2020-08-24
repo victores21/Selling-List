@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
 import { Translate, ICrudGetAllAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -9,9 +8,9 @@ import { IRootState } from 'app/shared/reducers';
 import { getEntities } from './sales.reducer';
 import { ISales } from 'app/shared/model/sales.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import ProductListTable from '../components/ProductListTable/ProductListTable';
 
-export interface ISalesProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
-
+export interface ISalesProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> { }
 export const Sales = (props: ISalesProps) => {
   useEffect(() => {
     props.getEntities();
@@ -20,7 +19,8 @@ export const Sales = (props: ISalesProps) => {
   const { salesList, match, loading } = props;
   return (
     <div>
-      <h2 id="sales-heading">
+      <ProductListTable salesList={salesList} />
+      {/* <h2 id="sales-heading">
         <Translate contentKey="testApp.sales.home.title">Sales</Translate>
         <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
           <FontAwesomeIcon icon="plus" />
@@ -88,13 +88,13 @@ export const Sales = (props: ISalesProps) => {
             </tbody>
           </Table>
         ) : (
-          !loading && (
-            <div className="alert alert-warning">
-              <Translate contentKey="testApp.sales.home.notFound">No Sales found</Translate>
-            </div>
-          )
-        )}
-      </div>
+            !loading && (
+              <div className="alert alert-warning">
+                <Translate contentKey="testApp.sales.home.notFound">No Sales found</Translate>
+              </div>
+            )
+          )}
+      </div> */}
     </div>
   );
 };
