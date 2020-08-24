@@ -9,7 +9,7 @@ import { ISales } from 'app/shared/model/sales.model';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity, deleteEntity } from './sales.reducer';
 
-export interface ISalesDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface ISalesDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const SalesDeleteDialog = (props: ISalesDeleteDialogProps) => {
   useEffect(() => {

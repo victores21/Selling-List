@@ -208,10 +208,10 @@ const ProductListTable = ({ salesList, match, loading }) => {
                                     >
                                         <TableHead>
                                             <TableRow>
-                                                <StyledTableCell>ID</StyledTableCell>
-                                                <StyledTableCell align="left">Product </StyledTableCell>
-                                                <StyledTableCell align="left">State</StyledTableCell>
-                                                <StyledTableCell align="left">Date</StyledTableCell>
+                                                <StyledTableCell> <Translate contentKey="global.field.id">ID</Translate></StyledTableCell>
+                                                <StyledTableCell align="left"><Translate contentKey="testApp.sales.description">Description</Translate> </StyledTableCell>
+                                                <StyledTableCell align="left"><Translate contentKey="testApp.sales.state">State</Translate></StyledTableCell>
+                                                <StyledTableCell align="left">  <Translate contentKey="testApp.sales.date">Date</Translate></StyledTableCell>
                                                 <StyledTableCell align="center">Actions</StyledTableCell>
                                             </TableRow>
                                         </TableHead>
@@ -243,20 +243,22 @@ const ProductListTable = ({ salesList, match, loading }) => {
                                                         {sales.date}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="center" size="medium">
-                                                        <Button
-                                                            variant="contained"
-                                                            className={`${classes.button} ${classes.buttonView}`}
-                                                            startIcon={<VisibilityIcon />}
-                                                        >
-                                                            View
-                                                                        </Button>
-                                                        <Button
-                                                            variant="contained"
-                                                            className={`${classes.button} ${classes.buttonEdit}`}
-                                                            startIcon={<CreateIcon />}
-                                                        >
-                                                            Edit
-                                                                        </Button>
+                                                        <Link to={`${match.url}/${sales.id}`}>
+                                                            <Button
+                                                                variant="contained"
+                                                                className={`${classes.button} ${classes.buttonView}`}
+                                                                startIcon={<VisibilityIcon />}
+                                                            >
+                                                                View
+                                                                        </Button></Link>
+                                                        <Link to={`${match.url}/${sales.id}/edit`}>
+                                                            <Button
+                                                                variant="contained"
+                                                                className={`${classes.button} ${classes.buttonEdit}`}
+                                                                startIcon={<CreateIcon />}
+                                                            >
+                                                                Edit
+                                                                        </Button></Link>
 
                                                         <Button
                                                             variant="contained"
@@ -289,25 +291,24 @@ const ProductListTable = ({ salesList, match, loading }) => {
                                                                 >
                                                                     No, cancel
                                                                             </Button>
-                                                                <Button
-                                                                    onClick={handleClose}
-                                                                    className={`${classes.button} ${classes.buttonDelete}`}
-                                                                    autoFocus
-                                                                >
-                                                                    Delete
-                                                                            </Button>
+                                                                <Link to={`${match.url}/${sales.id}/delete`}>
+                                                                    <Button
+                                                                        onClick={handleClose}
+                                                                        className={`${classes.button} ${classes.buttonDelete}`}
+                                                                        autoFocus
+                                                                    >
+                                                                        Delete
+                                                                            </Button></Link>
                                                             </DialogActions>
                                                         </Dialog>
                                                     </StyledTableCell>
                                                 </StyledTableRow>
-
-
                                             ))}
-                                            {/* {emptyRows > 0 && (
+                                            {emptyRows > 0 && (
                                                 <TableRow style={{ height: 53 * emptyRows }}>
                                                     <TableCell colSpan={6} />
                                                 </TableRow>
-                                            )} */}
+                                            )}
                                         </TableBody>
                                     </Table>
                                 ) : (
