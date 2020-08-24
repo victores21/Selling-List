@@ -26,6 +26,9 @@ import {
     DialogTitle,
     Slide,
 } from "@material-ui/core";
+import {
+    Link
+} from "react-router-dom";
 import { TransitionProps } from "@material-ui/core/transitions";
 // Icons
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
@@ -146,7 +149,7 @@ const Transition = React.forwardRef(function Transition(
 
 // Pagination
 
-const ProductListTable = ({ salesList }) => {
+const ProductListTable = ({ salesList, match, loading }) => {
     console.warn(salesList)
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
@@ -173,8 +176,8 @@ const ProductListTable = ({ salesList }) => {
     return (
         <ThemeProvider theme={theme}>
             <Grid container>
-                <Grid item xs={1} sm={1} md={1} lg={2} xl={2}></Grid>
-                <Grid item xs={12} sm={12} md={10} lg={8} xl={8}>
+                <Grid item xs={1} sm={1} md={1} lg={1} xl={2}></Grid>
+                <Grid item xs={12} sm={12} md={10} lg={10} xl={8}>
                     <Box mt={5}>
                         <Box display="flex" justifyContent="space-between">
                             <Typography
@@ -185,17 +188,136 @@ const ProductListTable = ({ salesList }) => {
                                 <Translate contentKey="testApp.sales.home.title">Sales</Translate>
                             </Typography>
 
-                            <Button
-                                variant="contained"
-                                size="large"
-                                className={`${classes.button} ${classes.buttonEdit}`}
-                            >
-                                <AddIcon />
-                            </Button>
+                            <Link to={`${match.url}/new`}>
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    className={`${classes.button} ${classes.buttonEdit}`}
+                                >
+                                    <AddIcon />
+                                </Button>
+                            </Link>
                         </Box>
                         <form>
                             <TableContainer component={Paper}>
-                                <Table
+                                {salesList && salesList.length > 0 ? (
+                                    <Table
+                                        className={classes.table}
+                                        aria-label="customized table"
+                                        padding="default"
+                                    >
+                                        <TableHead>
+                                            <TableRow>
+                                                <StyledTableCell>ID</StyledTableCell>
+                                                <StyledTableCell align="left">Product </StyledTableCell>
+                                                <StyledTableCell align="left">State</StyledTableCell>
+                                                <StyledTableCell align="left">Date</StyledTableCell>
+                                                <StyledTableCell align="center">Actions</StyledTableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {salesList.map((sales, i) => (
+
+
+
+                                                <StyledTableRow key={sales.id} hover>
+                                                    <StyledTableCell component="th" scope="row">
+                                                        {sales.id}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="left">
+                                                        {sales.description}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="left">
+                                                        <FiberManualRecordIcon
+                                                            className={
+                                                                sales.state === "DELIVERED"
+                                                                    ? classes.stateDelivered
+                                                                    : sales.state === "SHIPPED"
+                                                                        ? classes.stateShipped
+                                                                        : classes.stateInCharge
+                                                            }
+                                                        />{" "}
+                                                        {sales.state}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="left">
+                                                        {sales.date}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" size="medium">
+                                                        <Button
+                                                            variant="contained"
+                                                            className={`${classes.button} ${classes.buttonView}`}
+                                                            startIcon={<VisibilityIcon />}
+                                                        >
+                                                            View
+                                                                        </Button>
+                                                        <Button
+                                                            variant="contained"
+                                                            className={`${classes.button} ${classes.buttonEdit}`}
+                                                            startIcon={<CreateIcon />}
+                                                        >
+                                                            Edit
+                                                                        </Button>
+
+                                                        <Button
+                                                            variant="contained"
+                                                            className={`${classes.button} ${classes.buttonDelete}`}
+                                                            startIcon={<DeleteIcon />}
+                                                            onClick={handleClickOpen}
+                                                        >
+                                                            Delete
+                                                                        </Button>
+                                                        <Dialog
+                                                            open={open}
+                                                            onClose={handleClose}
+                                                            aria-labelledby="alert-dialog-title"
+                                                            aria-describedby="alert-dialog-description"
+                                                        >
+                                                            <DialogTitle id="alert-dialog-title">
+                                                                {"Are you sure?"}
+                                                            </DialogTitle>
+                                                            <DialogContent>
+                                                                <DialogContentText id="alert-dialog-description">
+                                                                    Do you really want to delete this product?
+                                                                    This process cannot be undone
+                                                                            </DialogContentText>
+                                                            </DialogContent>
+                                                            <DialogActions>
+                                                                <Button
+                                                                    onClick={handleClose}
+                                                                    variant="contained"
+                                                                    className={`${classes.button} ${classes.buttonEdit}`}
+                                                                >
+                                                                    No, cancel
+                                                                            </Button>
+                                                                <Button
+                                                                    onClick={handleClose}
+                                                                    className={`${classes.button} ${classes.buttonDelete}`}
+                                                                    autoFocus
+                                                                >
+                                                                    Delete
+                                                                            </Button>
+                                                            </DialogActions>
+                                                        </Dialog>
+                                                    </StyledTableCell>
+                                                </StyledTableRow>
+
+
+                                            ))}
+                                            {/* {emptyRows > 0 && (
+                                                <TableRow style={{ height: 53 * emptyRows }}>
+                                                    <TableCell colSpan={6} />
+                                                </TableRow>
+                                            )} */}
+                                        </TableBody>
+                                    </Table>
+                                ) : (
+                                        !loading && (
+                                            <div className="alert alert-warning">
+                                                <Translate contentKey="testApp.sales.home.notFound">No Sales found</Translate>
+                                            </div>
+                                        )
+                                    )}
+                                {/* <Table
                                     className={classes.table}
                                     aria-label="customized table"
                                     padding="default"
@@ -216,27 +338,27 @@ const ProductListTable = ({ salesList }) => {
                                                 page * rowsPerPage + rowsPerPage
                                             )
                                             .map((row, index) => (
-                                                <StyledTableRow key={row.id} hover="true">
+                                                <StyledTableRow key={sales.id} hover="true">
                                                     <StyledTableCell component="th" scope="row">
-                                                        {row.id}
+                                                        {sales.id}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="left">
-                                                        {row.product}
+                                                        {sales.product}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="left">
                                                         <FiberManualRecordIcon
                                                             className={
-                                                                row.state === "DELIVERED"
+                                                                sales.state === "DELIVERED"
                                                                     ? classes.stateDelivered
-                                                                    : row.state === "SHIPPED"
+                                                                    : sales.state === "SHIPPED"
                                                                         ? classes.stateShipped
                                                                         : classes.stateInCharge
                                                             }
                                                         />{" "}
-                                                        {row.state}
+                                                        {sales.state}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="left">
-                                                        {row.date}
+                                                        {sales.date}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="center" size="medium">
                                                         <Button
@@ -304,6 +426,7 @@ const ProductListTable = ({ salesList }) => {
                                         )}
                                     </TableBody>
                                 </Table>
+
                                 <TablePagination
                                     rowsPerPageOptions={[5, 10]}
                                     component="div"
@@ -312,12 +435,12 @@ const ProductListTable = ({ salesList }) => {
                                     page={page}
                                     onChangePage={handleChangePage}
                                     onChangeRowsPerPage={handleChangeRowsPerPage}
-                                />
+                                /> */}
                             </TableContainer>
                         </form>
                     </Box>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={2} xl={2}></Grid>
+                <Grid item xs={1} sm={1} md={1} lg={1} xl={2}></Grid>
             </Grid>
         </ThemeProvider>
     );

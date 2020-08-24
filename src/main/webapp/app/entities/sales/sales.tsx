@@ -19,7 +19,7 @@ export const Sales = (props: ISalesProps) => {
   const { salesList, match, loading } = props;
   return (
     <div>
-      <ProductListTable salesList={salesList} />
+      <ProductListTable salesList={salesList} match={match} loading={loading} />
       {/* <h2 id="sales-heading">
         <Translate contentKey="testApp.sales.home.title">Sales</Translate>
         <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
@@ -94,7 +94,7 @@ export const Sales = (props: ISalesProps) => {
               </div>
             )
           )}
-      </div> */}
+      </div>  */}
     </div>
   );
 };
