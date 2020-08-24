@@ -11,8 +11,9 @@ import { getEntity, updateEntity, createEntity, reset } from './sales.reducer';
 import { ISales } from 'app/shared/model/sales.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
+import EditProduct from '../components/EditProduct/EditProduct';
 
-export interface ISalesUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface ISalesUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const SalesUpdate = (props: ISalesUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
@@ -54,7 +55,8 @@ export const SalesUpdate = (props: ISalesUpdateProps) => {
 
   return (
     <div>
-      <Row className="justify-content-center">
+      <EditProduct loading={loading} salesEntity={salesEntity} />
+      {/* <Row className="justify-content-center">
         <Col md="8">
           <h2 id="testApp.sales.home.createOrEditLabel">
             <Translate contentKey="testApp.sales.home.createOrEditLabel">Create or edit a Sales</Translate>
@@ -119,7 +121,7 @@ export const SalesUpdate = (props: ISalesUpdateProps) => {
             </AvForm>
           )}
         </Col>
-      </Row>
+      </Row> */}
     </div>
   );
 };
