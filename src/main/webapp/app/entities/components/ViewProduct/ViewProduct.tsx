@@ -20,6 +20,8 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { Link, Redirect } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
+
+
 import "react-datepicker/dist/react-datepicker.css";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -90,6 +92,7 @@ const ViewProduct: React.FC<Props> = ({ salesEntity, loading }) => {
     const token = sessionStorage.getItem("jhi-authenticationToken");
     const bearerToken = `Bearer ${token}`;
     const normalizedToken = bearerToken.replace(/['"]+/g, '')
+
     useEffect(() => {
 
         const reqData = async () => {
@@ -108,41 +111,17 @@ const ViewProduct: React.FC<Props> = ({ salesEntity, loading }) => {
     })
 
     const classes = useStyles();
-    const [description, setDescription] = React.useState(salesEntity.description);
-    const [state, setState] = React.useState(salesEntity.state);
-    // const [date, setDate] = React.useState(salesEntity.date);
-    const [selectedDate, handleDateChange] = React.useState(new Date());
+    // const [selectedDate, setSelectedDate] = React.useState<Date | null>(
+    //     new Date('2014-08-18T21:11:54'),
+    // );
+    // const [selectedDate, handleDateChange] = useState(new Date());
+    const [selectedDate, setSelectedDate] = React.useState<Date | null>(
+        new Date('2014-08-18T21:11:54'),
+    );
 
-
-
-    const handleEditButtin = (event: React.MouseEvent<HTMLElement>) => {
-        const putData = async () => {
-
-            const dataString = `{ "date": "2020-08-15", "description":  "${description}", "id": ${id}, "state": "${state}", "summary": "any", "acceptance": "any", "status": "any"}`;
-
-            const req = await fetch("http://localhost:9000/api/sales/", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `${normalizedToken}`/* "Bearer " + sessionStorage.getItem("jhi-authenticationToken") */
-
-                },
-                body: dataString
-            })
-
-
-
-            const data = await req.json();
-            console.warn(data);
-        }
-        putData();
-    }
-
-
-
-    const [startDate, setStartDate] = React.useState(new Date());
-    console.warn(new Date())
-    // console.warn(loading)
+    const handleDateChange = (date: Date | null) => {
+        setSelectedDate(date);
+    };
     return (
 
         <>
@@ -154,7 +133,7 @@ const ViewProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                             <Box className={classes.headerBackground}>
                                 {/* There is already an h1 in the page, let's not duplicate it. */}
                                 <Typography variant="h3" component="h2" align="center">
-                                    Edit Product
+                                    Product Detail
                                 </Typography>
                             </Box>
                             <form>
@@ -199,7 +178,7 @@ const ViewProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                                             className={classes.label}
                                             htmlFor="component-helper"
                                         >
-                                            Product
+                                            Date
                                         </InputLabel>
                                         <Input
                                             id="component-helper"
@@ -208,6 +187,8 @@ const ViewProduct: React.FC<Props> = ({ salesEntity, loading }) => {
 
                                             aria-describedby="component-helper-text"
                                         />
+
+
                                     </FormControl>
 
                                 </Box>
@@ -232,13 +213,12 @@ const ViewProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                                      </Button>
                                 </Link>
 
-                                <Link to={"/sales"}>
+                                <Link to={`/sales/${salesEntity.id}/edit`}>
                                     <Button
                                         variant="contained"
                                         size="large"
                                         className={`${classes.button} ${classes.buttonEdit}`}
                                         startIcon={<CreateIcon />}
-                                        onClick={(e) => handleEditButtin(e)}
                                     >
                                         Edit
                                 </Button>

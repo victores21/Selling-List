@@ -19,8 +19,13 @@ import CreateIcon from "@material-ui/icons/Create";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { Link, Redirect } from 'react-router-dom';
 import { useParams } from "react-router-dom";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -113,7 +118,14 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
     const [description, setDescription] = React.useState(salesEntity.description);
     const [state, setState] = React.useState(salesEntity.state);
     // const [date, setDate] = React.useState(salesEntity.date);
-    const [selectedDate, handleDateChange] = React.useState(new Date());
+    const [selectedDate, setSelectedDate] = React.useState<string | null>(
+        salesEntity.date
+    );
+    console.warn("Date", salesEntity.date)
+    const handleDateChange = (date: date | null) => {
+        const formatDate = date.toISOString().split('T')[0];
+        setSelectedDate(formatDate);
+    };
 
     const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDescription(event.target.value);
@@ -122,13 +134,14 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
     const handleEditButtin = (event: React.MouseEvent<HTMLElement>) => {
         const putData = async () => {
 
-            const dataString = `{ "date": "2020-08-15", "description":  "${description}", "id": ${id}, "state": "${state}", "summary": "any", "acceptance": "any", "status": "any"}`;
+            const dataString = `{ "date": "${selectedDate}", "description":  "${description}", "id": ${id}, "state": "${state}", "summary": "any", "acceptance": "any", "status": "any"}`;
+            console.warn(dataString)
 
             const req = await fetch("http://localhost:9000/api/sales/", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `${normalizedToken}`/* "Bearer " + sessionStorage.getItem("jhi-authenticationToken") */
+                    "Authorization": `${normalizedToken}`
 
                 },
                 body: dataString
@@ -146,8 +159,7 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
         setState(event.target.value as string);
     };
 
-    const [startDate, setStartDate] = React.useState(new Date());
-    console.warn(new Date())
+
     return (
 
         <>
@@ -205,27 +217,21 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
 
                                         {/* Date Input (If edit) */}
                                         <FormControl className={classes.formControl}>
-                                            {/* <TextField
-                                            id="date"
-                                            label={
-                                                <Typography
-                                                    variant="h6"
-                                                    component="h3"
-                                                    className={classes.blackColorTypography}
-                                                >
-                                                    {" "}
-                                                    Date
-                                                </Typography>
-                                            }
-                                            type="date"
-                                            defaultValue={date}
-                                            className={classes.textField}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                        /> */}
+                                            {/* <DatePicker selected={startDate} onChange={date => setStartDate(date)} dateFormat="yyyy/MM/dd" /> */}
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}><KeyboardDatePicker
+                                                disableToolbar
+                                                variant="inline"
+                                                format="yyyy/MM/dd/"
+                                                margin="normal"
+                                                id="date-picker-inline"
+                                                label="Date picker inline"
+                                                value={selectedDate || ""}
+                                                onChange={handleDateChange}
+                                                KeyboardButtonProps={{
+                                                    'aria-label': 'change date',
+                                                }}
 
-                                            <DatePicker selected={startDate} onChange={date => setStartDate(date)} dateFormat="yyyy/MM/dd" />
+                                            /></MuiPickersUtilsProvider>
                                         </FormControl>
 
                                     </Box>

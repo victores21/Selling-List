@@ -11,7 +11,7 @@ import { ISales } from 'app/shared/model/sales.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import ViewProduct from '../components/ViewProduct/ViewProduct';
 
-export interface ISalesDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
+export interface ISalesDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id?: string }> { }
 
 export const SalesDetail = (props: ISalesDetailProps) => {
   const [loading, setLoading] = React.useState(true);
