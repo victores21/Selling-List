@@ -18,9 +18,9 @@ export interface ISalesUpdateProps extends StateProps, DispatchProps, RouteCompo
 
 export const SalesUpdate = (props: ISalesUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
-
   const { salesEntity, loading, updating } = props;
-  
+  const url = window.location.pathname;
+  console.warn(url.includes("edit"));
   const handleClose = () => {
     props.history.push('/sales');
   };
@@ -56,8 +56,8 @@ export const SalesUpdate = (props: ISalesUpdateProps) => {
 
   return (
     <div>
-      {loading ? <p>Loading</p> : <EditProduct loading={loading} salesEntity={salesEntity} isNew={isNew} saveEntity={saveEntity} />}
-      
+      {loading ? <p>Loading</p> : <EditProduct loading={loading} salesEntity={salesEntity} url={url} />}
+
       {/* <Row className="justify-content-center">
         <Col md="8">
           <h2 id="testApp.sales.home.createOrEditLabel">

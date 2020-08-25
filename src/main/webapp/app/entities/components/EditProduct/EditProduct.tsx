@@ -17,11 +17,8 @@ import {
 } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import TextField from "@material-ui/core/TextField";
 import { Link, Redirect } from 'react-router-dom';
 import { useParams } from "react-router-dom";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -86,10 +83,12 @@ interface Props {
         date: string
     }
     loading: boolean,
+    url: string
 }
-const EditProduct: React.FC<Props> = ({ salesEntity, loading }) => {
+const EditProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
 
     const { id } = useParams();
+    console.warn(url);
     const token = sessionStorage.getItem("jhi-authenticationToken");
     const bearerToken = `Bearer ${token}`;
     const normalizedToken = bearerToken.replace(/['"]+/g, '')
@@ -100,7 +99,7 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `${normalizedToken}`/* "Bearer " + sessionStorage.getItem("jhi-authenticationToken") */
+                    "Authorization": `${normalizedToken}`
 
                 }
             })
@@ -122,7 +121,7 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading }) => {
 
     const handleEditButtin = (event: React.MouseEvent<HTMLElement>) => {
         const putData = async () => {
-            // const dataString = `{ "date": ${date}, "description": ${description}, "id": ${id}, "state": ${state}, "summary": "any", "acceptance": "any", "status": "any"}`;
+
             const dataString = `{ "date": "2020-08-15", "description":  "${description}", "id": ${id}, "state": "${state}", "summary": "any", "acceptance": "any", "status": "any"}`;
 
             const req = await fetch("http://localhost:9000/api/sales/", {
