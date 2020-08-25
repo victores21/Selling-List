@@ -13,6 +13,7 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import EditProduct from '../components/EditProduct/EditProduct';
 
+
 export interface ISalesUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const SalesUpdate = (props: ISalesUpdateProps) => {
@@ -55,7 +56,8 @@ export const SalesUpdate = (props: ISalesUpdateProps) => {
 
   return (
     <div>
-      <EditProduct loading={loading} salesEntity={salesEntity} />
+      {loading ? <p>Loading</p> : <EditProduct loading={loading} salesEntity={salesEntity} />}
+      
       {/* <Row className="justify-content-center">
         <Col md="8">
           <h2 id="testApp.sales.home.createOrEditLabel">

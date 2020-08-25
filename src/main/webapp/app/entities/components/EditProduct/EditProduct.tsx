@@ -73,21 +73,35 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     })
 );
-const EditProduct = ({ salesEntity, loading }) => {
-    console.warn(salesEntity)
+interface Props {
+    salesEntity: {
+        id?: number,
+        description: string,
+        state: string,
+        date: string
+    }
+    loading:boolean,
+}
+const EditProduct: React.FC<Props> = ({ salesEntity, loading }) => {
+    
     const classes = useStyles();
-    const [name, setName] = React.useState("Pizza Zurus");
-    const [age, setAge] = React.useState("");
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value);
-    };
-    const handleChangeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setAge(event.target.value as string);
+    const [description, setDescription] = React.useState(salesEntity.description);
+    console.warn(description)
+    const [state, setState] = React.useState(salesEntity.state);
+    console.warn("State", state)
+    const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDescription(event.target.value);
     };
 
+    const handleChangeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setState(event.target.value as string);
+    };
+
+    
     return (
+        
         <>
-            <Grid container>
+        {loading ? <p>Loading</p> :             <Grid container>
                 <Grid item xs={1} sm={2} md={3} lg={4} xl={4}></Grid>
                 <Grid item xs={12} sm={8} md={6} lg={4} xl={4}>
                     <Box mt={10}>
@@ -110,9 +124,9 @@ const EditProduct = ({ salesEntity, loading }) => {
                     </InputLabel>
                                         <Input
                                             id="component-helper"
-                                            value={name}
+                                            value={description}
                                             className={classes.disableFontColor}
-                                            onChange={handleChange}
+                                            onChange={handleDescriptionChange}
                                             aria-describedby="component-helper-text"
                                         />
                                     </FormControl>
@@ -123,17 +137,17 @@ const EditProduct = ({ salesEntity, loading }) => {
                                             className={classes.label}
                                             id="demo-simple-select-helper-label"
                                         >
-                                            Delivery Status
+                                            State
                     </InputLabel>
                                         <Select
                                             labelId="demo-simple-select-helper-label"
                                             id="demo-simple-select-helper"
-                                            value={age}
+                                            value={state}
                                             onChange={handleChangeSelect}
                                         >
-                                            <MenuItem value={10}>DELIVERED</MenuItem>
-                                            <MenuItem value={20}>SHIPPED</MenuItem>
-                                            <MenuItem value={30}>IN-CHARGE</MenuItem>
+                                            <MenuItem value={"DELIVERED"}>DELIVERED</MenuItem>
+                                            <MenuItem value={"SHIPPED"}>SHIPPED</MenuItem>
+                                            <MenuItem value={"IN_CHARGE"}>IN-CHARGE</MenuItem>
                                         </Select>
                                     </FormControl>
 
@@ -195,6 +209,8 @@ const EditProduct = ({ salesEntity, loading }) => {
                 </Grid>
                 <Grid item xs={1} sm={2} md={3} lg={4} xl={4}></Grid>
             </Grid>
+         }
+
         </>
     );
 };
