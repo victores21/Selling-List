@@ -44,11 +44,11 @@ import theme from "../../../../../../../themeConfig";
 
 import { Translate, ICrudGetAllAction, TextFormat } from 'react-jhipster';
 
-const StyledTableCell = withStyles((theme: Theme) =>
+const StyledTableCell = withStyles((themeCell: Theme) =>
     createStyles({
         head: {
             backgroundColor: "#2A6A9E",
-            color: theme.palette.common.white,
+            color: themeCell.palette.common.white,
         },
         body: {
             fontSize: 14,
@@ -56,11 +56,11 @@ const StyledTableCell = withStyles((theme: Theme) =>
     })
 )(TableCell);
 
-const StyledTableRow = withStyles((theme: Theme) =>
+const StyledTableRow = withStyles((themeRow: Theme) =>
     createStyles({
         root: {
             "&:nth-of-type(odd)": {
-                backgroundColor: theme.palette.action.hover,
+                backgroundColor: themeRow.palette.action.hover,
             },
         },
     })

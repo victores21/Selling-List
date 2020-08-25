@@ -18,6 +18,7 @@ import {
 import CreateIcon from "@material-ui/icons/Create";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import TextField from "@material-ui/core/TextField";
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -168,15 +169,19 @@ const EditProduct = ({ salesEntity, loading }) => {
                                 pb={2}
                                 mr={2}
                             >
+
+                                <Link to={"/sales"}>
+                                    <Button
+                                        variant="contained"
+                                        size="large"
+                                        className={`${classes.button} ${classes.buttonBack}`}
+                                        startIcon={<ArrowBackIcon />}
+                                    >
+                                        Back
+                                     </Button>
+                                </Link>
                                 <Button
-                                    variant="contained"
-                                    size="large"
-                                    className={`${classes.button} ${classes.buttonBack}`}
-                                    startIcon={<ArrowBackIcon />}
-                                >
-                                    Back
-                </Button>
-                                <Button
+                                type="submit"
                                     variant="contained"
                                     size="large"
                                     className={`${classes.button} ${classes.buttonEdit}`}
