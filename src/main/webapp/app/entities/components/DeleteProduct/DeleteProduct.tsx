@@ -109,14 +109,16 @@ const DeleteProduct: React.FC<Props> = ({ id }) => {
     };
     return (
         <>
-            <Button
-                variant="contained"
-                className={`${classes.button} ${classes.buttonDelete}`}
-                startIcon={<DeleteIcon />}
-                onClick={handleClickOpen}
-            >
-                Delete
-                                                                        </Button>
+            <Link to={`/sales/${id}/delete`}>
+                <Button
+                    variant="contained"
+                    className={`${classes.button} ${classes.buttonDelete}`}
+                    startIcon={<DeleteIcon />}
+                    onClick={handleClickOpen}
+                >
+                    Delete
+            </Button>
+            </Link>
             <Dialog
                 open={open}
                 onClose={handleClose}

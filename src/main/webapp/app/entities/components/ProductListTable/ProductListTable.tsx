@@ -261,47 +261,7 @@ const ProductListTable = ({ salesList, match, loading }) => {
                                                                 Edit
                                                                         </Button></Link>
                                                         <DeleteProduct id={sales.id} />
-                                                        {/* <Button
-                                                            variant="contained"
-                                                            className={`${classes.button} ${classes.buttonDelete}`}
-                                                            startIcon={<DeleteIcon />}
-                                                            onClick={handleClickOpen}
-                                                        >
-                                                            Delete
-                                                                        </Button>
-                                                        <Dialog
-                                                            open={open}
-                                                            onClose={handleClose}
-                                                            aria-labelledby="alert-dialog-title"
-                                                            aria-describedby="alert-dialog-description"
-                                                        >
-                                                            <DialogTitle id="alert-dialog-title">
-                                                                {"Are you sure?"}
-                                                            </DialogTitle>
-                                                            <DialogContent>
-                                                                <DialogContentText id="alert-dialog-description">
-                                                                    Do you really want to delete this product?
-                                                                    This process cannot be undone
-                                                                            </DialogContentText>
-                                                            </DialogContent>
-                                                            <DialogActions>
-                                                                <Button
-                                                                    onClick={handleClose}
-                                                                    variant="contained"
-                                                                    className={`${classes.button} ${classes.buttonEdit}`}
-                                                                >
-                                                                    No, cancel
-                                                                            </Button>
-                                                                <Link to={`${match.url}/${sales.id}/delete`}>
-                                                                    <Button
-                                                                        onClick={handleClose}
-                                                                        className={`${classes.button} ${classes.buttonDelete}`}
-                                                                        autoFocus
-                                                                    >
-                                                                        Delete
-                                                                            </Button></Link>
-                                                            </DialogActions>
-                                                        </Dialog> */}
+
                                                     </StyledTableCell>
                                                 </StyledTableRow>
                                             ))}
@@ -314,130 +274,31 @@ const ProductListTable = ({ salesList, match, loading }) => {
                                     </Table>
                                 ) : (
                                         !loading && (
-                                            <div className="alert alert-warning">
-                                                <Translate contentKey="testApp.sales.home.notFound">No Sales found</Translate>
-                                            </div>
+                                            <Grid container>
+                                                <Grid item>
+                                                    <Box display="flex" flexDirection="column" p={3}>
+                                                        <Typography>
+                                                            <Translate contentKey="testApp.sales.home.notFound">No Sales found</Translate>
+
+                                                        </Typography>
+                                                        <Typography>
+                                                            Create one!
+                                                        </Typography>
+                                                        <Link to={`${match.url}/new`}>
+                                                            <Button
+                                                                variant="contained"
+                                                                size="large"
+                                                                className={`${classes.button} ${classes.buttonEdit}`}
+                                                            >
+                                                                <AddIcon /> Create
+                                                            </Button>
+                                                        </Link>
+
+                                                    </Box>
+                                                </Grid>
+                                            </Grid>
                                         )
                                     )}
-                                {/* <Table
-                                    className={classes.table}
-                                    aria-label="customized table"
-                                    padding="default"
-                                >
-                                    <TableHead>
-                                        <TableRow>
-                                            <StyledTableCell>ID</StyledTableCell>
-                                            <StyledTableCell align="left">Product </StyledTableCell>
-                                            <StyledTableCell align="left">State</StyledTableCell>
-                                            <StyledTableCell align="left">Date</StyledTableCell>
-                                            <StyledTableCell align="center">Actions</StyledTableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {rows
-                                            .slice(
-                                                page * rowsPerPage,
-                                                page * rowsPerPage + rowsPerPage
-                                            )
-                                            .map((row, index) => (
-                                                <StyledTableRow key={sales.id} hover="true">
-                                                    <StyledTableCell component="th" scope="row">
-                                                        {sales.id}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="left">
-                                                        {sales.product}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="left">
-                                                        <FiberManualRecordIcon
-                                                            className={
-                                                                sales.state === "DELIVERED"
-                                                                    ? classes.stateDelivered
-                                                                    : sales.state === "SHIPPED"
-                                                                        ? classes.stateShipped
-                                                                        : classes.stateInCharge
-                                                            }
-                                                        />{" "}
-                                                        {sales.state}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="left">
-                                                        {sales.date}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center" size="medium">
-                                                        <Button
-                                                            variant="contained"
-                                                            className={`${classes.button} ${classes.buttonView}`}
-                                                            startIcon={<VisibilityIcon />}
-                                                        >
-                                                            View
-                            </Button>
-                                                        <Button
-                                                            variant="contained"
-                                                            className={`${classes.button} ${classes.buttonEdit}`}
-                                                            startIcon={<CreateIcon />}
-                                                        >
-                                                            Edit
-                            </Button>
-
-                                                        <Button
-                                                            variant="contained"
-                                                            className={`${classes.button} ${classes.buttonDelete}`}
-                                                            startIcon={<DeleteIcon />}
-                                                            onClick={handleClickOpen}
-                                                        >
-                                                            Delete
-                            </Button>
-                                                        <Dialog
-                                                            open={open}
-                                                            onClose={handleClose}
-                                                            aria-labelledby="alert-dialog-title"
-                                                            aria-describedby="alert-dialog-description"
-                                                        >
-                                                            <DialogTitle id="alert-dialog-title">
-                                                                {"Are you sure?"}
-                                                            </DialogTitle>
-                                                            <DialogContent>
-                                                                <DialogContentText id="alert-dialog-description">
-                                                                    Do you really want to delete this product?
-                                                                    This process cannot be undone
-                                </DialogContentText>
-                                                            </DialogContent>
-                                                            <DialogActions>
-                                                                <Button
-                                                                    onClick={handleClose}
-                                                                    variant="contained"
-                                                                    className={`${classes.button} ${classes.buttonEdit}`}
-                                                                >
-                                                                    No, cancel
-                                </Button>
-                                                                <Button
-                                                                    onClick={handleClose}
-                                                                    className={`${classes.button} ${classes.buttonDelete}`}
-                                                                    autoFocus
-                                                                >
-                                                                    Delete
-                                </Button>
-                                                            </DialogActions>
-                                                        </Dialog>
-                                                    </StyledTableCell>
-                                                </StyledTableRow>
-                                            ))}
-                                        {emptyRows > 0 && (
-                                            <TableRow style={{ height: 53 * emptyRows }}>
-                                                <TableCell colSpan={6} />
-                                            </TableRow>
-                                        )}
-                                    </TableBody>
-                                </Table>
-
-                                <TablePagination
-                                    rowsPerPageOptions={[5, 10]}
-                                    component="div"
-                                    count={rows.length}
-                                    rowsPerPage={rowsPerPage}
-                                    page={page}
-                                    onChangePage={handleChangePage}
-                                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                                /> */}
                             </TableContainer>
                         </form>
                     </Box>
