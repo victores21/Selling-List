@@ -123,7 +123,7 @@ const CreateProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
         salesEntity.date
     );
     console.warn("Date", salesEntity.date)
-    const handleDateChange = (date: date | null) => {
+    const handleDateChange = (date: Date | null) => {
         const formatDate = date.toISOString().split('T')[0];
         setSelectedDate(formatDate);
     };

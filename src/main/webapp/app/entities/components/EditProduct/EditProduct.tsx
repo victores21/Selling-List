@@ -9,7 +9,6 @@ import {
     FormControl,
     InputLabel,
     Input,
-    FormHelperText,
     Select,
     MenuItem,
     Typography,
@@ -23,7 +22,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
-    KeyboardTimePicker,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 
@@ -80,6 +78,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     })
 );
+
 interface Props {
     salesEntity: {
         id?: number,
@@ -117,12 +116,11 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
     const classes = useStyles();
     const [description, setDescription] = React.useState(salesEntity.description);
     const [state, setState] = React.useState(salesEntity.state);
-    // const [date, setDate] = React.useState(salesEntity.date);
     const [selectedDate, setSelectedDate] = React.useState<string | null>(
         salesEntity.date
     );
     console.warn("Date", salesEntity.date)
-    const handleDateChange = (date: date | null) => {
+    const handleDateChange = (date: Date | null) => {
         const formatDate = date.toISOString().split('T')[0];
         setSelectedDate(formatDate);
     };
@@ -131,7 +129,7 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
         setDescription(event.target.value);
     };
 
-    const handleEditButtin = (event: React.MouseEvent<HTMLElement>) => {
+    const handleEditButton = (event: React.MouseEvent<HTMLElement>) => {
         const putData = async () => {
 
             const dataString = `{ "date": "${selectedDate}", "description":  "${description}", "id": ${id}, "state": "${state}", "summary": "any", "acceptance": "any", "status": "any"}`;
@@ -262,7 +260,7 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
                                             size="large"
                                             className={`${classes.button} ${classes.buttonEdit}`}
                                             startIcon={<CreateIcon />}
-                                            onClick={(e) => handleEditButtin(e)}
+                                            onClick={(e) => handleEditButton(e)}
                                         >
                                             Edit
                                 </Button>
