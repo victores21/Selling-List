@@ -43,6 +43,7 @@ import theme from "../../../../../../../themeConfig";
 // Jhipster
 
 import { Translate, ICrudGetAllAction, TextFormat } from 'react-jhipster';
+import DeleteProduct from '../DeleteProduct/DeleteProduct';
 
 const StyledTableCell = withStyles((themeCell: Theme) =>
     createStyles({
@@ -259,8 +260,8 @@ const ProductListTable = ({ salesList, match, loading }) => {
                                                             >
                                                                 Edit
                                                                         </Button></Link>
-
-                                                        <Button
+                                                        <DeleteProduct id={sales.id} />
+                                                        {/* <Button
                                                             variant="contained"
                                                             className={`${classes.button} ${classes.buttonDelete}`}
                                                             startIcon={<DeleteIcon />}
@@ -300,7 +301,7 @@ const ProductListTable = ({ salesList, match, loading }) => {
                                                                         Delete
                                                                             </Button></Link>
                                                             </DialogActions>
-                                                        </Dialog>
+                                                        </Dialog> */}
                                                     </StyledTableCell>
                                                 </StyledTableRow>
                                             ))}

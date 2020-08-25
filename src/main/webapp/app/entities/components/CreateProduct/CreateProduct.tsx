@@ -116,8 +116,8 @@ const CreateProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
     })
 
     const classes = useStyles();
-    const [description, setDescription] = React.useState(salesEntity.description);
-    const [state, setState] = React.useState(salesEntity.state);
+    const [description, setDescription] = React.useState("");
+    const [state, setState] = React.useState("");
     // const [date, setDate] = React.useState(salesEntity.date);
     const [selectedDate, setSelectedDate] = React.useState<string | null>(
         salesEntity.date
@@ -206,7 +206,7 @@ const CreateProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
                                             <Select
                                                 labelId="demo-simple-select-helper-label"
                                                 id="demo-simple-select-helper"
-                                                value={state}
+                                                value={state || ""}
                                                 onChange={handleChangeSelect}
                                             >
                                                 <MenuItem value={"DELIVERED"}>DELIVERED</MenuItem>
@@ -226,7 +226,7 @@ const CreateProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
                                                 margin="normal"
                                                 id="date-picker-inline"
                                                 label="Date picker inline"
-                                                value={selectedDate || ""}
+                                                value={selectedDate}
                                                 onChange={handleDateChange}
                                                 KeyboardButtonProps={{
                                                     'aria-label': 'change date',
@@ -257,17 +257,17 @@ const CreateProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
                                      </Button>
                                     </Link>
 
-                                    {/* <Link to={"/sales"}> */}
-                                    <Button
-                                        variant="contained"
-                                        size="large"
-                                        className={`${classes.button} ${classes.buttonEdit}`}
-                                        startIcon={<AddIcon />}
-                                        onClick={(e) => handleCreateButton(e)}
-                                    >
-                                        Create
+                                    <Link to={"/sales"}>
+                                        <Button
+                                            variant="contained"
+                                            size="large"
+                                            className={`${classes.button} ${classes.buttonEdit}`}
+                                            startIcon={<AddIcon />}
+                                            onClick={(e) => handleCreateButton(e)}
+                                        >
+                                            Create
                                 </Button>
-                                    {/* </Link> */}
+                                    </Link>
 
 
                                 </Box>
