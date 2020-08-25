@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Grid,
     Paper,
@@ -19,6 +19,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import TextField from "@material-ui/core/TextField";
 import { Link } from 'react-router-dom';
+import {useParams} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -82,26 +83,70 @@ interface Props {
     }
     loading:boolean,
 }
-const EditProduct: React.FC<Props> = ({ salesEntity, loading }) => {
+const EditProduct: React.FC<Props> = ({ salesEntity, loading, isNew, saveEntity }) => {
     
+   const {id} = useParams();
+   const token = sessionStorage.getItem("jhi-authenticationToken");
+   const bearerToken = `Bearer ${token}`;
+   const normalizedToken = bearerToken.replace(/['"]+/g, '')
+   useEffect(()=>{
+
+       const reqData = async()=>{
+           const req = await fetch("http://localhost:9000/api/sales/2",{
+               method:"GET",
+               headers:{
+                   "Content-Type" : "application/json",
+                   "Authorization": `${normalizedToken}`/* "Bearer " + sessionStorage.getItem("jhi-authenticationToken") */
+
+               }
+           })
+           const data = await req.json();
+           console.warn(data);
+       }
+       reqData();
+   })
+
     const classes = useStyles();
     const [description, setDescription] = React.useState(salesEntity.description);
-    console.warn(description)
     const [state, setState] = React.useState(salesEntity.state);
-    console.warn("State", state)
+    const [date, setDate] = React.useState(salesEntity.date);
     const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDescription(event.target.value);
     };
+
+    const handleEditButtin = (event:React.MouseEvent<HTMLElement>) =>{
+        const putData = async()=>{
+            // const dataString = `{ "date": ${date}, "description": ${description}, "id": ${id}, "state": ${state}, "summary": "any", "acceptance": "any", "status": "any"}`;
+            const dataString = `{ "date": "${date}", "description":  "${description}", "id": ${id}, "state": "${state}", "summary": "any", "acceptance": "any", "status": "any"}`;
+           
+            const req = await fetch("http://localhost:9000/api/sales/",{
+                method:"PUT",
+                headers:{
+                    "Content-Type" : "application/json",
+                    "Authorization": `${normalizedToken}`/* "Bearer " + sessionStorage.getItem("jhi-authenticationToken") */
+ 
+                },
+                body: dataString
+            })
+           
+
+
+            const data = await req.json();
+            console.warn(data);
+        }
+        putData();
+    }
 
     const handleChangeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
         setState(event.target.value as string);
     };
 
-    
+   
     return (
         
         <>
-        {loading ? <p>Loading</p> :             <Grid container>
+        {loading ? <p>Loading</p> :             
+        <Grid container>
                 <Grid item xs={1} sm={2} md={3} lg={4} xl={4}></Grid>
                 <Grid item xs={12} sm={8} md={6} lg={4} xl={4}>
                     <Box mt={10}>
@@ -110,7 +155,7 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                                 {/* There is already an h1 in the page, let's not duplicate it. */}
                                 <Typography variant="h3" component="h2" align="center">
                                     Edit Product
-                </Typography>
+                                </Typography>
                             </Box>
                             <form>
                                 <Box display="flex" flexDirection="column" pt={3} px={4}>
@@ -121,7 +166,7 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                                             htmlFor="component-helper"
                                         >
                                             Product
-                    </InputLabel>
+                                        </InputLabel>
                                         <Input
                                             id="component-helper"
                                             value={description}
@@ -138,7 +183,7 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                                             id="demo-simple-select-helper-label"
                                         >
                                             State
-                    </InputLabel>
+                                        </InputLabel>
                                         <Select
                                             labelId="demo-simple-select-helper-label"
                                             id="demo-simple-select-helper"
@@ -162,11 +207,11 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                                                     className={classes.blackColorTypography}
                                                 >
                                                     {" "}
-                          Date{" "}
+                                                    Date{" "}
                                                 </Typography>
                                             }
                                             type="date"
-                                            defaultValue="2017-05-24"
+                                            defaultValue={date}
                                             className={classes.textField}
                                             InputLabelProps={{
                                                 shrink: true,
@@ -195,14 +240,15 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                                      </Button>
                                 </Link>
                                 <Button
-                                type="submit"
+                                onSubmit={saveEntity}
                                     variant="contained"
                                     size="large"
                                     className={`${classes.button} ${classes.buttonEdit}`}
                                     startIcon={<CreateIcon />}
+                                    onClick={()=>handleEditButtin()}
                                 >
                                     Edit
-                </Button>
+                                </Button>
                             </Box>
                         </Paper>
                     </Box>

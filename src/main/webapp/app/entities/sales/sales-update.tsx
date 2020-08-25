@@ -20,7 +20,7 @@ export const SalesUpdate = (props: ISalesUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
   const { salesEntity, loading, updating } = props;
-
+  
   const handleClose = () => {
     props.history.push('/sales');
   };
@@ -56,7 +56,7 @@ export const SalesUpdate = (props: ISalesUpdateProps) => {
 
   return (
     <div>
-      {loading ? <p>Loading</p> : <EditProduct loading={loading} salesEntity={salesEntity} />}
+      {loading ? <p>Loading</p> : <EditProduct loading={loading} salesEntity={salesEntity} isNew={isNew} saveEntity={saveEntity} />}
       
       {/* <Row className="justify-content-center">
         <Col md="8">
