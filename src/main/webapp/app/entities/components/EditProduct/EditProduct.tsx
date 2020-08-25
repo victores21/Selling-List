@@ -18,8 +18,12 @@ import {
 import CreateIcon from "@material-ui/icons/Create";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import TextField from "@material-ui/core/TextField";
-import { Link } from 'react-router-dom';
-import {useParams} from "react-router-dom";
+import { Link, Redirect } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -81,54 +85,56 @@ interface Props {
         state: string,
         date: string
     }
-    loading:boolean,
+    loading: boolean,
 }
-const EditProduct: React.FC<Props> = ({ salesEntity, loading, isNew, saveEntity }) => {
-    
-   const {id} = useParams();
-   const token = sessionStorage.getItem("jhi-authenticationToken");
-   const bearerToken = `Bearer ${token}`;
-   const normalizedToken = bearerToken.replace(/['"]+/g, '')
-   useEffect(()=>{
+const EditProduct: React.FC<Props> = ({ salesEntity, loading }) => {
 
-       const reqData = async()=>{
-           const req = await fetch("http://localhost:9000/api/sales/2",{
-               method:"GET",
-               headers:{
-                   "Content-Type" : "application/json",
-                   "Authorization": `${normalizedToken}`/* "Bearer " + sessionStorage.getItem("jhi-authenticationToken") */
+    const { id } = useParams();
+    const token = sessionStorage.getItem("jhi-authenticationToken");
+    const bearerToken = `Bearer ${token}`;
+    const normalizedToken = bearerToken.replace(/['"]+/g, '')
+    useEffect(() => {
 
-               }
-           })
-           const data = await req.json();
-           console.warn(data);
-       }
-       reqData();
-   })
+        const reqData = async () => {
+            const req = await fetch("http://localhost:9000/api/sales/2", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `${normalizedToken}`/* "Bearer " + sessionStorage.getItem("jhi-authenticationToken") */
+
+                }
+            })
+            const data = await req.json();
+            console.warn(data);
+        }
+        reqData();
+    })
 
     const classes = useStyles();
     const [description, setDescription] = React.useState(salesEntity.description);
     const [state, setState] = React.useState(salesEntity.state);
-    const [date, setDate] = React.useState(salesEntity.date);
+    // const [date, setDate] = React.useState(salesEntity.date);
+    const [selectedDate, handleDateChange] = React.useState(new Date());
+
     const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDescription(event.target.value);
     };
 
-    const handleEditButtin = (event:React.MouseEvent<HTMLElement>) =>{
-        const putData = async()=>{
+    const handleEditButtin = (event: React.MouseEvent<HTMLElement>) => {
+        const putData = async () => {
             // const dataString = `{ "date": ${date}, "description": ${description}, "id": ${id}, "state": ${state}, "summary": "any", "acceptance": "any", "status": "any"}`;
-            const dataString = `{ "date": "${date}", "description":  "${description}", "id": ${id}, "state": "${state}", "summary": "any", "acceptance": "any", "status": "any"}`;
-           
-            const req = await fetch("http://localhost:9000/api/sales/",{
-                method:"PUT",
-                headers:{
-                    "Content-Type" : "application/json",
+            const dataString = `{ "date": "2020-08-15", "description":  "${description}", "id": ${id}, "state": "${state}", "summary": "any", "acceptance": "any", "status": "any"}`;
+
+            const req = await fetch("http://localhost:9000/api/sales/", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
                     "Authorization": `${normalizedToken}`/* "Bearer " + sessionStorage.getItem("jhi-authenticationToken") */
- 
+
                 },
                 body: dataString
             })
-           
+
 
 
             const data = await req.json();
@@ -141,64 +147,66 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading, isNew, saveEntity 
         setState(event.target.value as string);
     };
 
-   
+    const [startDate, setStartDate] = React.useState(new Date());
+    console.warn(new Date())
     return (
-        
+
         <>
-        {loading ? <p>Loading</p> :             
-        <Grid container>
-                <Grid item xs={1} sm={2} md={3} lg={4} xl={4}></Grid>
-                <Grid item xs={12} sm={8} md={6} lg={4} xl={4}>
-                    <Box mt={10}>
-                        <Paper elevation={3}>
-                            <Box className={classes.headerBackground}>
-                                {/* There is already an h1 in the page, let's not duplicate it. */}
-                                <Typography variant="h3" component="h2" align="center">
-                                    Edit Product
+            {loading ? <p>Loading</p> :
+                <Grid container>
+                    <Grid item xs={1} sm={2} md={3} lg={4} xl={4}></Grid>
+                    <Grid item xs={12} sm={8} md={6} lg={4} xl={4}>
+                        <Box mt={10}>
+                            <Paper elevation={3}>
+                                <Box className={classes.headerBackground}>
+                                    {/* There is already an h1 in the page, let's not duplicate it. */}
+                                    <Typography variant="h3" component="h2" align="center">
+                                        Edit Product
                                 </Typography>
-                            </Box>
-                            <form>
-                                <Box display="flex" flexDirection="column" pt={3} px={4}>
-                                    {/* Product Input (Edit and View) */}
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel
-                                            className={classes.label}
-                                            htmlFor="component-helper"
-                                        >
-                                            Product
+                                </Box>
+                                <form>
+                                    <Box display="flex" flexDirection="column" pt={3} px={4}>
+                                        {/* Product Input (Edit and View) */}
+                                        <FormControl className={classes.formControl}>
+                                            <InputLabel
+                                                className={classes.label}
+                                                htmlFor="component-helper"
+                                            >
+                                                Product
                                         </InputLabel>
-                                        <Input
-                                            id="component-helper"
-                                            value={description}
-                                            className={classes.disableFontColor}
-                                            onChange={handleDescriptionChange}
-                                            aria-describedby="component-helper-text"
-                                        />
-                                    </FormControl>
+                                            <Input
+                                                id="component-helper"
+                                                value={description}
+                                                className={classes.disableFontColor}
+                                                onChange={handleDescriptionChange}
+                                                aria-describedby="component-helper-text"
+                                            />
+                                        </FormControl>
 
-                                    {/* Delivery Status input if (Edit) */}
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel
-                                            className={classes.label}
-                                            id="demo-simple-select-helper-label"
-                                        >
-                                            State
+                                        {/* Delivery Status input if (Edit) */}
+                                        <FormControl className={classes.formControl}>
+                                            <InputLabel
+                                                className={classes.label}
+                                                id="demo-simple-select-helper-label"
+                                            >
+                                                State
                                         </InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-helper-label"
-                                            id="demo-simple-select-helper"
-                                            value={state}
-                                            onChange={handleChangeSelect}
-                                        >
-                                            <MenuItem value={"DELIVERED"}>DELIVERED</MenuItem>
-                                            <MenuItem value={"SHIPPED"}>SHIPPED</MenuItem>
-                                            <MenuItem value={"IN_CHARGE"}>IN-CHARGE</MenuItem>
-                                        </Select>
-                                    </FormControl>
+                                            <Select
+                                                labelId="demo-simple-select-helper-label"
+                                                id="demo-simple-select-helper"
+                                                value={state}
+                                                onChange={handleChangeSelect}
+                                            >
+                                                <MenuItem value={"DELIVERED"}>DELIVERED</MenuItem>
+                                                <MenuItem value={"SHIPPED"}>SHIPPED</MenuItem>
+                                                <MenuItem value={"IN_CHARGE"}>IN-CHARGE</MenuItem>
+                                            </Select>
 
-                                    {/* Date Input (If edit) */}
-                                    <FormControl className={classes.formControl}>
-                                        <TextField
+                                        </FormControl>
+
+                                        {/* Date Input (If edit) */}
+                                        <FormControl className={classes.formControl}>
+                                            {/* <TextField
                                             id="date"
                                             label={
                                                 <Typography
@@ -207,7 +215,7 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading, isNew, saveEntity 
                                                     className={classes.blackColorTypography}
                                                 >
                                                     {" "}
-                                                    Date{" "}
+                                                    Date
                                                 </Typography>
                                             }
                                             type="date"
@@ -216,46 +224,53 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading, isNew, saveEntity 
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                        />
-                                    </FormControl>
-                                </Box>
-                            </form>
+                                        /> */}
 
-                            <Box
-                                display="flex"
-                                justifyContent="flex-end"
-                                pt={5}
-                                pb={2}
-                                mr={2}
-                            >
+                                            <DatePicker selected={startDate} onChange={date => setStartDate(date)} dateFormat="yyyy/MM/dd" />
+                                        </FormControl>
 
-                                <Link to={"/sales"}>
-                                    <Button
-                                        variant="contained"
-                                        size="large"
-                                        className={`${classes.button} ${classes.buttonBack}`}
-                                        startIcon={<ArrowBackIcon />}
-                                    >
-                                        Back
-                                     </Button>
-                                </Link>
-                                <Button
-                                onSubmit={saveEntity}
-                                    variant="contained"
-                                    size="large"
-                                    className={`${classes.button} ${classes.buttonEdit}`}
-                                    startIcon={<CreateIcon />}
-                                    onClick={()=>handleEditButtin()}
+                                    </Box>
+                                </form>
+
+                                <Box
+                                    display="flex"
+                                    justifyContent="flex-end"
+                                    pt={5}
+                                    pb={2}
+                                    mr={2}
                                 >
-                                    Edit
+
+                                    <Link to={"/sales"}>
+                                        <Button
+                                            variant="contained"
+                                            size="large"
+                                            className={`${classes.button} ${classes.buttonBack}`}
+                                            startIcon={<ArrowBackIcon />}
+                                        >
+                                            Back
+                                     </Button>
+                                    </Link>
+
+                                    <Link to={"/sales"}>
+                                        <Button
+                                            variant="contained"
+                                            size="large"
+                                            className={`${classes.button} ${classes.buttonEdit}`}
+                                            startIcon={<CreateIcon />}
+                                            onClick={(e) => handleEditButtin(e)}
+                                        >
+                                            Edit
                                 </Button>
-                            </Box>
-                        </Paper>
-                    </Box>
+                                    </Link>
+
+
+                                </Box>
+                            </Paper>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={1} sm={2} md={3} lg={4} xl={4}></Grid>
                 </Grid>
-                <Grid item xs={1} sm={2} md={3} lg={4} xl={4}></Grid>
-            </Grid>
-         }
+            }
 
         </>
     );
