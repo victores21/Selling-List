@@ -13,6 +13,7 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import EditProduct from '../components/EditProduct/EditProduct';
 import CreateProduct from "../components/CreateProduct/CreateProduct";
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 export interface ISalesUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
@@ -56,7 +57,7 @@ export const SalesUpdate = (props: ISalesUpdateProps) => {
   if (url.includes("new")) {
     return (
       <div>
-        {loading ? <p>Loading</p> : <CreateProduct loading={loading} salesEntity={salesEntity} url={url} />}
+        {loading ? <LinearProgress /> : <CreateProduct loading={loading} salesEntity={salesEntity} url={url} />}
       </div>
     );
   }
@@ -64,7 +65,7 @@ export const SalesUpdate = (props: ISalesUpdateProps) => {
   if (url.includes("edit")) {
     return (
       <div>
-        {loading ? <p>Loading</p> : <EditProduct loading={loading} salesEntity={salesEntity} url={url} />}
+        {loading ? <LinearProgress /> : <EditProduct loading={loading} salesEntity={salesEntity} url={url} />}
       </div>
     );
   }

@@ -25,6 +25,7 @@ import {
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 import AddIcon from "@material-ui/icons/Add";
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -162,7 +163,7 @@ const CreateProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
     return (
 
         <>
-            {loading ? <p>Loading</p> :
+            {loading ? <LinearProgress /> :
                 <Grid container>
                     <Grid item xs={1} sm={2} md={3} lg={4} xl={4}></Grid>
                     <Grid item xs={12} sm={8} md={6} lg={4} xl={4}>
