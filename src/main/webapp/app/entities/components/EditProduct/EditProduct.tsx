@@ -184,6 +184,7 @@ const EditProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
                                                 Product
                                         </InputLabel>
                                             <Input
+
                                                 id="component-helper"
                                                 value={description}
                                                 className={classes.disableFontColor}

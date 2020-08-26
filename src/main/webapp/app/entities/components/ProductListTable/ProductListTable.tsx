@@ -17,25 +17,22 @@ import {
     Box,
     ThemeProvider,
     Typography,
-    TablePagination,
     Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Slide,
 } from "@material-ui/core";
 import {
     Link
 } from "react-router-dom";
-import { TransitionProps } from "@material-ui/core/transitions";
+
 // Icons
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import CreateIcon from "@material-ui/icons/Create";
 import AddIcon from "@material-ui/icons/Add";
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+
+
 import Loader from 'react-loader-spinner'
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import theme from "../../../../../../../themeConfig";
@@ -126,7 +123,7 @@ const ProductListTable = ({ salesList, match, loading }) => {
     return (
         <>
             {loading ?
-                <p>Loading...</p>
+                <LinearProgress />
                 : <ThemeProvider theme={theme}>
 
                     <Grid container>

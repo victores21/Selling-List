@@ -23,46 +23,6 @@ export const SalesDetail = (props: ISalesDetailProps) => {
   const { salesEntity } = props;
   return (
     <ViewProduct salesEntity={salesEntity} loading={loading} />
-    // <Row>
-    //   <Col md="8">
-    //     <h2>
-    //       <Translate contentKey="testApp.sales.detail.title">Sales</Translate> [<b>{salesEntity.id}</b>]
-    //     </h2>
-    //     <dl className="jh-entity-details">
-    //       <dt>
-    //         <span id="description">
-    //           <Translate contentKey="testApp.sales.description">Description</Translate>
-    //         </span>
-    //       </dt>
-    //       <dd>{salesEntity.description}</dd>
-    //       <dt>
-    //         <span id="state">
-    //           <Translate contentKey="testApp.sales.state">State</Translate>
-    //         </span>
-    //       </dt>
-    //       <dd>{salesEntity.state}</dd>
-    //       <dt>
-    //         <span id="date">
-    //           <Translate contentKey="testApp.sales.date">Date</Translate>
-    //         </span>
-    //       </dt>
-    //       <dd>{salesEntity.date ? <TextFormat value={salesEntity.date} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}</dd>
-    //     </dl>
-    //     <Button tag={Link} to="/sales" replace color="info">
-    //       <FontAwesomeIcon icon="arrow-left" />{' '}
-    //       <span className="d-none d-md-inline">
-    //         <Translate contentKey="entity.action.back">Back</Translate>
-    //       </span>
-    //     </Button>
-    //     &nbsp;
-    //     <Button tag={Link} to={`/sales/${salesEntity.id}/edit`} replace color="primary">
-    //       <FontAwesomeIcon icon="pencil-alt" />{' '}
-    //       <span className="d-none d-md-inline">
-    //         <Translate contentKey="entity.action.edit">Edit</Translate>
-    //       </span>
-    //     </Button>
-    //   </Col>
-    // </Row>
   );
 };
 

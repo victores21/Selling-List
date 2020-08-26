@@ -15,11 +15,9 @@ import {
     Typography,
     Button,
 } from "@material-ui/core";
-import CreateIcon from "@material-ui/icons/Create";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { Link, Redirect } from 'react-router-dom';
 import { useParams } from "react-router-dom";
-import "react-datepicker/dist/react-datepicker.css";
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
@@ -187,6 +185,7 @@ const CreateProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
                                                 Product
                                         </InputLabel>
                                             <Input
+                                                required
                                                 id="component-helper"
                                                 value={description}
                                                 className={classes.disableFontColor}
@@ -218,14 +217,13 @@ const CreateProduct: React.FC<Props> = ({ salesEntity, loading, url }) => {
 
                                         {/* Date Input (If edit) */}
                                         <FormControl className={classes.formControl}>
-                                            {/* <DatePicker selected={startDate} onChange={date => setStartDate(date)} dateFormat="yyyy/MM/dd" /> */}
                                             <MuiPickersUtilsProvider utils={DateFnsUtils}><KeyboardDatePicker
                                                 disableToolbar
                                                 variant="inline"
                                                 format="yyyy/MM/dd/"
                                                 margin="normal"
                                                 id="date-picker-inline"
-                                                label="Date picker inline"
+                                                label="Date"
                                                 value={selectedDate}
                                                 onChange={handleDateChange}
                                                 KeyboardButtonProps={{

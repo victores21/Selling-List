@@ -9,20 +9,15 @@ import {
     FormControl,
     InputLabel,
     Input,
-    FormHelperText,
-    Select,
-    MenuItem,
     Typography,
     Button,
 } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useParams } from "react-router-dom";
-import DatePicker from "react-datepicker";
+import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 
-
-import "react-datepicker/dist/react-datepicker.css";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -132,8 +127,8 @@ const ViewProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                         <Paper elevation={3}>
                             <Box className={classes.headerBackground}>
                                 {/* There is already an h1 in the page, let's not duplicate it. */}
-                                <Typography variant="h3" component="h2" align="center">
-                                    Product Detail
+                                <Typography variant="h2" component="h2" align="center">
+                                    <Translate contentKey="testApp.sales.detail.title">Detail </Translate> [<b>{salesEntity.id}</b>]
                                 </Typography>
                             </Box>
                             <form>
@@ -144,7 +139,7 @@ const ViewProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                                             className={classes.label}
                                             htmlFor="component-helper"
                                         >
-                                            Product
+                                            <Translate contentKey="testApp.sales.description">Description</Translate>
                                         </InputLabel>
                                         <Input
                                             id="component-helper"
@@ -161,7 +156,7 @@ const ViewProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                                             className={classes.label}
                                             htmlFor="component-helper"
                                         >
-                                            State
+                                            <Translate contentKey="testApp.sales.state">State</Translate>
                                         </InputLabel>
                                         <Input
                                             id="component-helper"
@@ -178,7 +173,7 @@ const ViewProduct: React.FC<Props> = ({ salesEntity, loading }) => {
                                             className={classes.label}
                                             htmlFor="component-helper"
                                         >
-                                            Date
+                                            <Translate contentKey="testApp.sales.date">Date</Translate>
                                         </InputLabel>
                                         <Input
                                             id="component-helper"

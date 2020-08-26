@@ -9,9 +9,6 @@ import {
     Slide,
 } from "@material-ui/core";
 import {
-    withStyles,
-    Theme,
-    createStyles,
     makeStyles,
 } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
